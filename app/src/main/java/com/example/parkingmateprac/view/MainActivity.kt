@@ -95,6 +95,12 @@ class MainActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordIt
             drawerLayout.closeDrawer(androidx.core.view.GravityCompat.START)
             true
         }
+        val customerService = findViewById<TextView>(R.id.nav_customer_service)
+        customerService.setOnClickListener {
+            Toast.makeText(this, "고객센터 선택", Toast.LENGTH_SHORT).show()
+            // 여기서 고객센터 화면으로 이동하는 로직을 추가
+        }
+
 
         // ActivityResultLauncher 초기화
         searchResultLauncher = registerForActivityResult(
