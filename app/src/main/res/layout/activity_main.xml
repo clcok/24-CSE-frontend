@@ -51,6 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toEndOf="@id/menu_button"
                     android:hint="@string/input_search_keyword"
+                    android:focusable="false"
                     android:background="@android:color/transparent"
                     android:paddingStart="16dp"
                     android:inputType="text"

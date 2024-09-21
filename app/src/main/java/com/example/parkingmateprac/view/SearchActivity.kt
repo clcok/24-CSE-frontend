@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.MyApplication
-import com.example.parkingmateprac.BuildConfig
 import com.example.parkingmateprac.adapter.keyword.KeywordAdapter
 import com.example.parkingmateprac.adapter.search.SearchAdapter
 import com.example.parkingmateprac.api.KakaoLocalApi
