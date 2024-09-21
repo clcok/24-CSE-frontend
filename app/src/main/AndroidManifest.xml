@@ -24,6 +24,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/KAKAO_API_KEY" />
 
+        <!-- RegisterActivity 설정 -->
         <activity android:name=".view.RegisterActivity"
             android:exported="true">
             <intent-filter>
@@ -32,11 +33,21 @@
             </intent-filter>
         </activity>
 
+        <!-- HomeActivity 설정 -->
+        <activity android:name=".HomeActivity" />
+
         <!-- MainActivity 설정 -->
         <activity android:name=".view.MainActivity" />
 
         <!-- SearchActivity 설정 -->
         <activity android:name=".view.SearchActivity" />
+
+        <!-- 다른 액티비티 설정 -->
+        <activity android:name=".ReserveParkingLotActivity" />
+        <activity android:name=".RegisterParkingLotActivity" />
+        <activity android:name=".ChargeLogActivity" />
+        <activity android:name=".MyPageActivity" />
+        <activity android:name=".RegisterPlaceActivity" />
 
     </application>
 
