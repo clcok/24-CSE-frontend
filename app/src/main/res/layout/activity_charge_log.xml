@@ -67,7 +67,7 @@
             android:layout_margin="20dp"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/capybara_image" />
+            android:src="@drawable/ic_user_profile" />
 
         <TextView
             android:layout_gravity="center|right"

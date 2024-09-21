@@ -26,5 +26,9 @@ class HomeActivity : AppCompatActivity() {
             val intent = Intent(this, RegisterParkingLotActivity::class.java)
             startActivity(intent)
         }
+        binding.useParkingLotBtn.setOnClickListener{ // 사용 화면으로 이동
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
