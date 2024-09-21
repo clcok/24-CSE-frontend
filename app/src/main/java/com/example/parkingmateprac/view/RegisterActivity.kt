@@ -1,5 +1,6 @@
 package com.example.parkingmateprac.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.parkingmateprac.R
 import com.example.parkingmateprac.api.RetrofitClient
 import com.example.parkingmateprac.model.RegisterRequest
+import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.util.concurrent.Service
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -47,7 +49,13 @@ class RegisterActivity : AppCompatActivity() {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
                         // 성공적으로 회원가입이 완료되었을 때 처리
-                        Toast.makeText(this@RegisterActivity, "회원가입 성공", Toast.LENGTH_SHORT).show()
+                        // MainActivity로 이동
+                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
+                        startActivity(intent)
+
+                        // 현재 RegisterActivity를 종료 (옵션)
+                        finish()
+
                     } else {
                         // 서버 응답은 받았지만 실패한 경우 처리
                         Toast.makeText(this@RegisterActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
