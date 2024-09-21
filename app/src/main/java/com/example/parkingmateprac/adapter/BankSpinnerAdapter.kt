@@ -1,4 +1,4 @@
-package com.example.parkingmateprac
+package com.example.parkingmateprac.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.parkingmateprac.model.BankItem
+import com.example.parkingmateprac.R
 
 class BankSpinnerAdapter(context: Context, private val resource: Int, private val items: List<BankItem>)
     : ArrayAdapter<BankItem>(context, resource, items) {

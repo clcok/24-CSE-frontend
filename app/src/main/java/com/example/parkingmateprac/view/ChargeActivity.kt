@@ -1,4 +1,4 @@
-package com.example.parkingmateprac
+package com.example.parkingmateprac.view
 
 import android.os.Bundle
 import android.view.View
@@ -6,6 +6,9 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.parkingmateprac.model.BankItem
+import com.example.parkingmateprac.adapter.BankSpinnerAdapter
+import com.example.parkingmateprac.R
 import com.example.parkingmateprac.databinding.ActivityChargeBinding
 
 class ChargeActivity : AppCompatActivity() {

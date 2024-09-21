@@ -1,4 +1,4 @@
-package com.example.parkingmateprac
+package com.example.parkingmateprac.view
 
 import android.os.Bundle
 import android.view.View
@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.parkingmateprac.databinding.ActivityChargeBinding
 import com.example.parkingmateprac.databinding.ActivityReserveParkingLotBinding
 
 class ReserveParkingLotActivity : AppCompatActivity() {

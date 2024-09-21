@@ -1,4 +1,4 @@
-package com.example.parkingmateprac
+package com.example.parkingmateprac.view
 
 import android.content.Intent
 import android.os.Bundle
