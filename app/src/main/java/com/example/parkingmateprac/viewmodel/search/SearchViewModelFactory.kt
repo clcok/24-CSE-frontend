@@ -1,6 +1,5 @@
 package com.example.parkingmateprac.viewmodel.search
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.parkingmateprac.api.KakaoLocalApi

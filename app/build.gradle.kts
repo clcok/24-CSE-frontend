@@ -69,6 +69,7 @@ dependencies {
     implementation("com.kakao.sdk:v2-user:2.9.0")
     implementation("com.kakao.maps.open:android:2.9.5")
     implementation("com.google.android.gms:play-services-location:21.1.0")
+    implementation(libs.play.services.maps)
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -76,4 +77,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("com.google.code.gson:gson:2.8.8")
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

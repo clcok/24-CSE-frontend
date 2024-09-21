@@ -1,0 +1,62 @@
+[
+  {
+    "ownerName": "정부",
+    "parkingName": "공영주차장",
+    "maxCar": 10,
+    "useCar": 3,
+    "price": 0,
+    "explain": "공영주차장입니다",
+    "isAvailable": true,
+    "parkingSpaceId": 1,
+    "latitude": 35.8866963,
+    "longitude": 128.6045118
+  },
+  {
+    "ownerName": "정부",
+    "parkingName": "공영주차장",
+    "maxCar": 10,
+    "useCar": 5,
+    "price": 0,
+    "explain": "공영주차장입니다",
+    "isAvailable": true,
+    "parkingSpaceId": 2,
+    "latitude": 35.8865336,
+    "longitude": 128.6111038
+  },
+  {
+    "ownerName": "정부",
+    "parkingName": "공영주차장",
+    "maxCar": 10,
+    "useCar": 1,
+    "price": 0,
+    "explain": "공영주차장입니다",
+    "isAvailable": true,
+    "parkingSpaceId": 3,
+    "latitude": 35.885551,
+    "longitude": 128.6072035
+  },
+  {
+    "ownerName": "정부",
+    "parkingName": "공영주차장",
+    "maxCar": 10,
+    "useCar": 0,
+    "price": 0,
+    "explain": "공영주차장입니다",
+    "isAvailable": true,
+    "parkingSpaceId": 4,
+    "latitude": 35.8909405,
+    "longitude": 128.6058718
+  },
+  {
+    "ownerName": "정부",
+    "parkingName": "공영주차장",
+    "maxCar": 10,
+    "useCar": 7,
+    "price": 0,
+    "explain": "공영주차장입니다",
+    "isAvailable": true,
+    "parkingSpaceId": 5,
+    "latitude": 35.8866511,
+    "longitude": 128.6052236
+  }
+]
