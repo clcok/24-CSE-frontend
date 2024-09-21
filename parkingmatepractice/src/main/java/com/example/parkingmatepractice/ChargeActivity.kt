@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.example.parkingmatepractice.com.example.parkingmatepractice.adapter.BankSpinnerAdapter
 import com.example.parkingmatepractice.databinding.ActivityChargeBinding
 
 class ChargeActivity : AppCompatActivity() {

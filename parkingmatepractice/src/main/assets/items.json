@@ -1,0 +1,16 @@
+[
+  {
+    "place": "Place 1",
+    "address": "Address 1",
+    "category": "Category 1",
+    "latitude": 37.5665,
+    "longitude": 126.9780
+  },
+  {
+    "place": "Place 2",
+    "address": "Address 2",
+    "category": "Category 2",
+    "latitude": 35.1796,
+    "longitude": 129.0756
+  }
+]

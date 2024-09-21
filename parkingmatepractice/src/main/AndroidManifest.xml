@@ -9,6 +9,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AndroidLab">
         <activity
+            android:name=".TestActivity"
+            android:exported="true" />
+        <activity
             android:name=".RegisterParkingLotSuccessActivity"
             android:exported="false" />
         <activity
@@ -22,9 +25,6 @@
             android:exported="true" />
         <activity
             android:name=".MyPageActivity"
-            android:exported="true" />
-        <activity
-            android:name=".RegisterPlaceActivity"
             android:exported="true" />
         <activity
             android:name=".HomeActivity"

@@ -51,4 +51,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     implementation("de.hdodenhof:circleimageview:3.1.0")
+    implementation ("com.google.code.gson:gson:2.8.9")
+    implementation ("androidx.recyclerview:recyclerview:1.2.1")
+
 }

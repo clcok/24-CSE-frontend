@@ -104,27 +104,6 @@
         android:padding="10dp"
         android:background="@drawable/white_round_rectangle" />
 
-    <!-- email -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="24dp"
-        android:text="이메일"
-        android:textSize="16sp"
-        android:textColor="@color/gray_font" />
-
-    <TextView
-        android:id="@+id/email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:text="Capybara@gmail.com"
-        android:textSize="18sp"
-        android:padding="10dp"
-        android:background="@drawable/white_round_rectangle" />
-
     <!-- logout -->
     <TextView
         android:id="@+id/logout"
