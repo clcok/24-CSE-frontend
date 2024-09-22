@@ -1,4 +1,4 @@
-package com.example.parkingmateprac.viewmodel.search
+package com.example.parkingmateprac.viewmodel
 
 import androidx.lifecycle.*
 import com.example.parkingmateprac.model.api.KakaoLocalApi

@@ -1,4 +1,4 @@
-package com.example.parkingmateprac.viewmodel.main
+package com.example.parkingmateprac.viewmodel
 
 import android.app.Application
 import android.content.Context
@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.parkingmateprac.model.dto.ItemDto
+import com.example.parkingmateprac.model.entity.ParkingItemEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -15,14 +16,23 @@ class MainViewModel @Inject constructor(
     application: Application
 ) : AndroidViewModel(application) {
 
-    private val sharedPreferences: SharedPreferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-
     // 마지막 마커 위치를 관리하는 LiveData
     private val _lastMarkerPosition = MutableLiveData<ItemDto?>()
     val lastMarkerPosition: LiveData<ItemDto?> = _lastMarkerPosition
 
+    // 주차장 데이터를 관리하는 LiveData
+    private val _parkingItems = MutableLiveData<List<ParkingItemEntity>>()
+    val parkingItems: LiveData<List<ParkingItemEntity>> = _parkingItems
+
+    private val sharedPreferences: SharedPreferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
     init {
         loadLastMarkerPosition()  // 뷰모델 초기화 시 마커 위치 불러오기
+    }
+
+    // 주차장 정보를 ViewModel에 저장하는 함수
+    fun setParkingItems(parkingItems: List<ParkingItemEntity>) {
+        _parkingItems.value = parkingItems
     }
 
     // 마지막 마커 위치 저장
@@ -45,7 +55,6 @@ class MainViewModel @Inject constructor(
             val placeName = sharedPreferences.getString(PREF_PLACE_NAME, "") ?: ""
             val roadAddressName = sharedPreferences.getString(PREF_ROAD_ADDRESS_NAME, "") ?: ""
 
-            // 불러온 값으로 ItemDTO 생성 후 LiveData 업데이트
             _lastMarkerPosition.value = if (placeName.isNotEmpty() && roadAddressName.isNotEmpty()) {
                 ItemDto(placeName, roadAddressName, "", latitude, longitude)
             } else {

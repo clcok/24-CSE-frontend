@@ -1,4 +1,4 @@
-package com.example.parkingmateprac.viewmodel.keyword
+package com.example.parkingmateprac.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
