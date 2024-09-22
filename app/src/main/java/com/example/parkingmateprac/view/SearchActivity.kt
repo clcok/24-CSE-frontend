@@ -1,107 +1,57 @@
 package com.example.parkingmateprac.view
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
-import android.view.View
+import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.parkingmateprac.viewmodel.adapter.KeywordAdapter
-import com.example.parkingmateprac.viewmodel.adapter.SearchAdapter
-import com.example.parkingmateprac.model.api.KakaoLocalApi
-import com.example.parkingmateprac.databinding.ActivitySearchBinding
-import com.example.parkingmateprac.model.dto.ItemDto
-import com.example.parkingmateprac.viewmodel.OnKeywordItemClickListener
-import com.example.parkingmateprac.viewmodel.OnSearchItemClickListener
-import com.example.parkingmateprac.viewmodel.keyword.KeywordViewModel
-import com.example.parkingmateprac.viewmodel.search.SearchViewModel
-import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
+import androidx.lifecycle.lifecycleScope
+import androidx.room.Room
+import com.example.parkingmateprac.R
+import com.example.parkingmateprac.dao.AppDatabase
+import com.example.parkingmateprac.model.dao.KeywordDao
+import com.example.parkingmateprac.model.entity.KeywordEntity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-@AndroidEntryPoint
-class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordItemClickListener {
+class SearchActivity : AppCompatActivity() {
 
-    // Hilt를 통해 KakaoLocalApi 주입
-    @Inject
-    lateinit var kakaoLocalApi: KakaoLocalApi
-
-    private lateinit var binding: ActivitySearchBinding
-    private lateinit var searchViewModel: SearchViewModel
-    private lateinit var keywordViewModel: KeywordViewModel
-    private lateinit var searchAdapter: SearchAdapter
-    private lateinit var keywordAdapter: KeywordAdapter
+    private lateinit var keywordDao: KeywordDao
+    private var keywords: List<KeywordEntity> = emptyList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySearchBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_search)
 
-        // ViewModel 초기화 (Hilt로 주입받은 kakaoLocalApi 사용)
-        searchViewModel = ViewModelProvider(this, SearchViewModelFactory(kakaoLocalApi))[SearchViewModel::class.java]
-        keywordViewModel = ViewModelProvider(this, KeywordViewModelFactory(applicationContext))[KeywordViewModel::class.java]
+        // 데이터베이스 초기화
+        initializeDatabase()
 
-        // 검색 결과 RecyclerView 설정
-        searchAdapter = SearchAdapter(this)
-        binding.searchResultView.apply {
-            layoutManager = LinearLayoutManager(this@SearchActivity)
-            adapter = searchAdapter
-            addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
-        }
-
-        // 검색어 히스토리 RecyclerView 설정
-        keywordAdapter = KeywordAdapter(this)
-        binding.keywordHistoryView.apply {
-            layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.HORIZONTAL, false)
-            adapter = keywordAdapter
-        }
-
-        // 검색 입력 설정
-        binding.searchTextInput.doAfterTextChanged {
-            searchViewModel.searchLocationData(it.toString())
-        }
-
-        // 취소 버튼 설정
-        binding.deleteTextInput.setOnClickListener {
-            binding.searchTextInput.text.clear()
-        }
-
-        // 검색어 목록 관찰
-        keywordViewModel.keywords.observe(this) {
-            keywordAdapter.submitList(it)
-        }
-
-        // 검색 결과 관찰
-        searchViewModel.items.observe(this) {
-            searchAdapter.submitList(it)
-            binding.searchResultView.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
-            binding.emptyView.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-        }
+        // 키워드 데이터 로드
+        loadKeywords()
     }
 
-    override fun onSearchItemClick(item: ItemDto) {
-        // 검색 항목 클릭 시 선택된 데이터를 반환하고 검색어 저장
-        keywordViewModel.saveKeyword(item.place)
-        val resultIntent = Intent().apply {
-            putExtra("place_name", item.place)
-            putExtra("road_address_name", item.address)
-            putExtra("latitude", item.latitude)
-            putExtra("longitude", item.longitude)
+    // 데이터베이스 초기화 (팩토리 패턴 없이 직접 DAO 사용)
+    private fun initializeDatabase() {
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java,
+            "app_database"
+        ).build()
+        keywordDao = db.keywordDao()
+    }
+
+    // 키워드 데이터를 로드하고 UI에 반영하는 함수
+    private fun loadKeywords() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            keywords = keywordDao.getAllKeywords()
+            withContext(Dispatchers.Main) {
+                if (keywords.isNotEmpty()) {
+                    Log.d("SearchActivity", "Loaded keywords: $keywords")
+                    // 키워드를 UI에 반영하는 작업 (예: RecyclerView 업데이트)
+                } else {
+                    Toast.makeText(this@SearchActivity, "저장된 키워드가 없습니다.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
-        setResult(Activity.RESULT_OK, resultIntent)
-        finish()
-    }
-
-    override fun onKeywordItemClick(keyword: String) {
-        // 저장된 검색어 클릭
-        binding.searchTextInput.setText(keyword)
-        searchViewModel.searchLocationData(keyword)
-    }
-
-    override fun onKeywordItemDeleteClick(keyword: String) {
-        // 저장된 검색어 삭제
-        keywordViewModel.deleteKeyword(keyword)
     }
 }
