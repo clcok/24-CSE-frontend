@@ -25,7 +25,7 @@
             android:value="@string/KAKAO_API_KEY" />
 
         <!-- RegisterActivity 설정 -->
-        <activity android:name=".view.RegisterActivity"
+        <activity android:name=".view.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,9 +35,6 @@
 
         <!-- HomeActivity 설정 -->
         <activity android:name=".view.HomeActivity" />
-
-        <!-- MainActivity 설정 -->
-        <activity android:name=".view.MainActivity" />
 
         <!-- SearchActivity 설정 -->
         <activity android:name=".view.SearchActivity" />

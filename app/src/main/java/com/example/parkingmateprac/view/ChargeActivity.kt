@@ -6,18 +6,21 @@ import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.example.parkingmateprac.model.BankItem
-import com.example.parkingmateprac.adapter.BankSpinnerAdapter
+import com.example.parkingmateprac.viewmodel.adapter.BankSpinnerAdapter
 import com.example.parkingmateprac.R
 import com.example.parkingmateprac.databinding.ActivityChargeBinding
+import com.example.parkingmateprac.model.dto.BankItem  // repository 패키지에서 BankItem 사용
 
 class ChargeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityChargeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         // ViewBinding 초기화
-        val binding = ActivityChargeBinding.inflate(layoutInflater)
+        binding = ActivityChargeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Spinner에 사용할 데이터: BankItem 리스트
@@ -52,7 +55,10 @@ class ChargeActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // 선택되지 않았을 때 추가적인 처리
+                Toast.makeText(this@ChargeActivity, "은행을 선택해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

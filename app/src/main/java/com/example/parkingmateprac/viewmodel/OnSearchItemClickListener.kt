@@ -1,8 +1,8 @@
 package com.example.parkingmateprac.viewmodel
 
 
-import com.example.parkingmateprac.model.Item
+import com.example.parkingmateprac.model.entity.LocationEntity
 
 interface OnSearchItemClickListener {
-    fun onSearchItemClick(item: Item)
+    fun onSearchItemClick(item: LocationEntity)
 }

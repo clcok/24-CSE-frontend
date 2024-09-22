@@ -9,23 +9,28 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.MyApplication
-import com.example.parkingmateprac.adapter.keyword.KeywordAdapter
-import com.example.parkingmateprac.adapter.search.SearchAdapter
-import com.example.parkingmateprac.api.KakaoLocalApi
+import com.example.parkingmateprac.viewmodel.adapter.KeywordAdapter
+import com.example.parkingmateprac.viewmodel.adapter.SearchAdapter
+import com.example.parkingmateprac.model.api.KakaoLocalApi
 import com.example.parkingmateprac.databinding.ActivitySearchBinding
-import com.example.parkingmateprac.model.Item
+import com.example.parkingmateprac.model.dto.ItemDto
 import com.example.parkingmateprac.viewmodel.OnKeywordItemClickListener
 import com.example.parkingmateprac.viewmodel.OnSearchItemClickListener
 import com.example.parkingmateprac.viewmodel.keyword.KeywordViewModel
-import com.example.parkingmateprac.viewmodel.keyword.KeywordViewModelFactory
 import com.example.parkingmateprac.viewmodel.search.SearchViewModel
-import com.example.parkingmateprac.viewmodel.search.SearchViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeywordItemClickListener {
+
+    // Hilt를 통해 KakaoLocalApi 주입
+    @Inject
+    lateinit var kakaoLocalApi: KakaoLocalApi
+
     private lateinit var binding: ActivitySearchBinding
     private lateinit var searchViewModel: SearchViewModel
-    lateinit var keywordViewModel: KeywordViewModel
+    private lateinit var keywordViewModel: KeywordViewModel
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var keywordAdapter: KeywordAdapter
 
@@ -34,11 +39,8 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Retrofit 초기화
-        val api = MyApplication.retrofit.create(KakaoLocalApi::class.java)
-
-        // ViewModel 초기화
-        searchViewModel = ViewModelProvider(this, SearchViewModelFactory(api))[SearchViewModel::class.java]
+        // ViewModel 초기화 (Hilt로 주입받은 kakaoLocalApi 사용)
+        searchViewModel = ViewModelProvider(this, SearchViewModelFactory(kakaoLocalApi))[SearchViewModel::class.java]
         keywordViewModel = ViewModelProvider(this, KeywordViewModelFactory(applicationContext))[KeywordViewModel::class.java]
 
         // 검색 결과 RecyclerView 설정
@@ -49,7 +51,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.VERTICAL))
         }
 
-        // 검색어 목록 RecyclerView 설정
+        // 검색어 히스토리 RecyclerView 설정
         keywordAdapter = KeywordAdapter(this)
         binding.keywordHistoryView.apply {
             layoutManager = LinearLayoutManager(this@SearchActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -61,7 +63,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             searchViewModel.searchLocationData(it.toString())
         }
 
-        // 취소 버튼 클릭 이벤트 설정
+        // 취소 버튼 설정
         binding.deleteTextInput.setOnClickListener {
             binding.searchTextInput.text.clear()
         }
@@ -71,7 +73,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
             keywordAdapter.submitList(it)
         }
 
-        // 검색 결과 관찰하여 UI 업데이트
+        // 검색 결과 관찰
         searchViewModel.items.observe(this) {
             searchAdapter.submitList(it)
             binding.searchResultView.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
@@ -79,7 +81,7 @@ class SearchActivity : AppCompatActivity(), OnSearchItemClickListener, OnKeyword
         }
     }
 
-    override fun onSearchItemClick(item: Item) {
+    override fun onSearchItemClick(item: ItemDto) {
         // 검색 항목 클릭 시 선택된 데이터를 반환하고 검색어 저장
         keywordViewModel.saveKeyword(item.place)
         val resultIntent = Intent().apply {

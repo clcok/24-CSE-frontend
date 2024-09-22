@@ -6,29 +6,38 @@ import android.content.SharedPreferences
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.parkingmateprac.model.Item
+import com.example.parkingmateprac.model.dto.ItemDto
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    application: Application
+) : AndroidViewModel(application) {
 
     private val sharedPreferences: SharedPreferences = application.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    private val _lastMarkerPosition = MutableLiveData<Item?>()
-    val lastMarkerPosition: LiveData<Item?> get() = _lastMarkerPosition
+
+    // 마지막 마커 위치를 관리하는 LiveData
+    private val _lastMarkerPosition = MutableLiveData<ItemDto?>()
+    val lastMarkerPosition: LiveData<ItemDto?> = _lastMarkerPosition
 
     init {
-        loadLastMarkerPosition()
+        loadLastMarkerPosition()  // 뷰모델 초기화 시 마커 위치 불러오기
     }
 
-    fun saveLastMarkerPosition(item: Item) {
+    // 마지막 마커 위치 저장
+    fun saveLastMarkerPosition(item: ItemDto) {
         with(sharedPreferences.edit()) {
             putFloat(PREF_LATITUDE, item.latitude.toFloat())
             putFloat(PREF_LONGITUDE, item.longitude.toFloat())
             putString(PREF_PLACE_NAME, item.place)
             putString(PREF_ROAD_ADDRESS_NAME, item.address)
-            apply()
+            apply()  // SharedPreferences에 값 저장
         }
-        _lastMarkerPosition.value = item
+        _lastMarkerPosition.value = item  // LiveData 업데이트
     }
 
+    // SharedPreferences에서 마지막 마커 위치 불러오기
     private fun loadLastMarkerPosition() {
         if (sharedPreferences.contains(PREF_LATITUDE) && sharedPreferences.contains(PREF_LONGITUDE)) {
             val latitude = sharedPreferences.getFloat(PREF_LATITUDE, 0.0f).toDouble()
@@ -36,8 +45,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             val placeName = sharedPreferences.getString(PREF_PLACE_NAME, "") ?: ""
             val roadAddressName = sharedPreferences.getString(PREF_ROAD_ADDRESS_NAME, "") ?: ""
 
+            // 불러온 값으로 ItemDTO 생성 후 LiveData 업데이트
             _lastMarkerPosition.value = if (placeName.isNotEmpty() && roadAddressName.isNotEmpty()) {
-                Item(placeName, roadAddressName, "", latitude, longitude)
+                ItemDto(placeName, roadAddressName, "", latitude, longitude)
             } else {
                 null
             }

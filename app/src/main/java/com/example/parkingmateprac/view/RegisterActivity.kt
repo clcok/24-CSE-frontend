@@ -1,73 +1,42 @@
 package com.example.parkingmateprac.view
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.parkingmateprac.R
-import com.example.parkingmateprac.api.RetrofitClient
-import com.example.parkingmateprac.model.RegisterRequest
-import com.google.firebase.crashlytics.buildtools.reloc.com.google.common.util.concurrent.Service
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.parkingmateprac.databinding.ActivityRegisterBinding
+import com.example.parkingmateprac.model.dto.RegisterRequestDto
 
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var editTextUserName: EditText
-    private lateinit var editTextPassword: EditText
-    private lateinit var editTextTelephone: EditText
-    private lateinit var editTextName: EditText
-    private lateinit var buttonRegister: Button
+    private lateinit var binding: ActivityRegisterBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_register)
+        binding = ActivityRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        // View 연결
-        editTextUserName = findViewById(R.id.editTextUserName)
-        editTextPassword = findViewById(R.id.editTextPassword)
-        editTextTelephone = findViewById(R.id.editTextTelephone)
-        editTextName = findViewById(R.id.editTextName)
-        buttonRegister = findViewById(R.id.buttonRegister)
+        binding.registerButton.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
+            val userName = binding.userNameEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+            val telephone = binding.telephoneEditText.text.toString()
 
-        // 회원가입 버튼 클릭 시 네트워크 요청
-        buttonRegister.setOnClickListener {
-            val userName = editTextUserName.text.toString()
-            val password = editTextPassword.text.toString()
-            val telephone = editTextTelephone.text.toString()
-            val name = editTextName.text.toString()
+            if (name.isNotEmpty() && userName.isNotEmpty() && password.isNotEmpty() && telephone.isNotEmpty()) {
+                val registerRequest = RegisterRequestDto(
+                    name = name,
+                    userName = userName,
+                    password = password,
+                    telephone = telephone
+                )
 
-            // 회원가입 요청에 필요한 데이터 생성
-            val registerRequest = RegisterRequest(userName, password, telephone, name)
+                // TODO: 서버로 회원가입 요청 전송
+                // 예시: apiService.registerUser(registerRequest)
 
-            // Retrofit을 사용하여 API 호출
-            RetrofitClient.apiService.registerUser(registerRequest).enqueue(object : Callback<Void> {
-                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                    if (response.isSuccessful) {
-                        // 성공적으로 회원가입이 완료되었을 때 처리
-                        // MainActivity로 이동
-                        val intent = Intent(this@RegisterActivity, MainActivity::class.java)
-                        startActivity(intent)
-
-                        // 현재 RegisterActivity를 종료 (옵션)
-                        finish()
-
-                    } else {
-                        // 서버 응답은 받았지만 실패한 경우 처리
-                        Toast.makeText(this@RegisterActivity, "회원가입 실패", Toast.LENGTH_SHORT).show()
-                    }
-                }
-                override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Log.e("NetworkError", "네트워크 오류: ${t.message}", t)
-                    t.printStackTrace()
-                    Toast.makeText(this@RegisterActivity, "네트워크 오류: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-
-            })
+                Toast.makeText(this, "회원가입 요청이 전송되었습니다.", Toast.LENGTH_SHORT).show()
+                finish() // 회원가입 완료 후 액티비티 종료 또는 로그인 화면으로 이동
+            } else {
+                Toast.makeText(this, "모든 필드를 입력해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
