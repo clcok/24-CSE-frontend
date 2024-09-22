@@ -1,5 +1,6 @@
 package com.example.parkingmateprac.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
@@ -12,12 +13,18 @@ import com.example.parkingmateprac.R
 import com.example.parkingmateprac.databinding.ActivityChargeBinding
 
 class ChargeActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityChargeBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
         // ViewBinding 초기화
-        val binding = ActivityChargeBinding.inflate(layoutInflater)
+        binding = ActivityChargeBinding.inflate(layoutInflater)
+
+        settingButton()
+
         setContentView(binding.root)
 
         // Spinner에 사용할 데이터: BankItem 리스트
@@ -53,6 +60,14 @@ class ChargeActivity : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+    }
+
+    fun settingButton() {
+        binding.charge.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            Toast.makeText(this, "충전이 완료되었습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 }

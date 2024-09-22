@@ -18,10 +18,10 @@ class ChargeLogActivity : AppCompatActivity() {
 
         // 바인딩 객체 획득
         binding = ActivityChargeLogBinding.inflate(layoutInflater)
+        settingButton()
 
         // 액티비티 화면 출력
         setContentView(binding.root)
-        settingButton()
     }
 
     fun settingButton() {

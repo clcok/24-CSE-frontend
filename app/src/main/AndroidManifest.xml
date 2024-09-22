@@ -40,9 +40,13 @@
         <activity android:name=".view.SearchActivity" /> <!-- 다른 액티비티 설정 -->
         <activity android:name=".view.ReserveParkingLotActivity" />
         <activity android:name=".view.RegisterParkingLotActivity" />
+        <activity android:name=".view.RegisterParkingLotFailedActivity" />
+        <activity android:name=".view.RegisterParkingLotSuccessActivity" />
+
         <activity android:name=".view.ChargeLogActivity" />
+        <activity android:name=".view.ChargeActivity" />
+
         <activity android:name=".view.MyPageActivity" />
-        <activity android:name=".RegisterPlaceActivity" />
     </application>
 
 </manifest>
