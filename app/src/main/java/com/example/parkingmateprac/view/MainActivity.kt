@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageButton
@@ -54,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // 데이터베이스 초기화 및 주차장 데이터 로드
-        initializeDatabase()
         loadParkingItems()
 
         // 지도 초기화
@@ -64,16 +62,8 @@ class MainActivity : AppCompatActivity() {
         initializeUIComponents()
     }
 
-    private fun initializeDatabase() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "app_database"
-        ).build()
-        parkingItemDao = db.parkingItemDao()
-    }
 
-    private fun loadParkingItems() {
+    private fun loadParkingItems() =
         // 비동기로 데이터 로드
         Thread {
             parkingItems = parkingItemDao.getAllParkingItems()
@@ -83,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
-    }
 
     private fun initializeMapView() {
         mapView = findViewById(R.id.map_view)
